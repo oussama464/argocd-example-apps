@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-cheking-job
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  template:
+    spec:
+      containers:
+      - name: migrate
+        image: busybox:latest
+        command: ["sh","-c", "sleep 10 && echo Database host ${DB_HOST} on port ${DB_PORT} is reachable"]
+        env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: game-demo
+              key: DB_HOST
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: game-demo
+              key: DB_PORT
+      restartPolicy: Never
+  backoffLimit: 2

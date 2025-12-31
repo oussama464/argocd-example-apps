@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: game-demo
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+data:
+  DB_HOST: "postgres"
+  DB_PORT: "5432"
